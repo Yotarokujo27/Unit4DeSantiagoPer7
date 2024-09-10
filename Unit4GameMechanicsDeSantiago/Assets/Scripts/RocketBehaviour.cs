@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class RocketBehaviour : MonoBehaviour
 {
-    private Transform target;
-    private float speed = 15.0f;
+
+    private float speed = 1000f;
     private bool homing;
 
     private float rocketStrength = 15.0f;
     private float aliveTimer = 5.0f;
+
+    private float projectileSpeed = 5;
+    private GameObject target;
     // Start is called before the first frame update
    public void Fire(Transform newTarget)
     {
@@ -21,12 +24,10 @@ public class RocketBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ( homing && target != null)
-        {
-            Vector3 moveDirection = (target.transform.position-transform.position).normalized;
-            transform.position += moveDirection * speed * Time.deltaTime;
-            transform.LookAt(target);
-        }
+        target = GameObject.FindWithTag("Enemy");
+
+        transform.LookAt(target.transform.position);
+        transform.position += transform.forward * projectileSpeed * Time.deltaTime;
     }
 
     void OnCollisionEnter(Collision col)
